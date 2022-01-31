@@ -3,36 +3,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { getApolloClient } from '../apollo';
+import GET_CHARACTERS from '../apollo/queries/charactersQueries';
 import styles from '../styles/Home.module.css';
-
-export const GET_CHARACTERS = gql`
-  query {
-    characters(page: 1) {
-      info {
-        count
-        pages
-      }
-      results {
-        name
-        id
-        location {
-          id
-          name
-        }
-        origin {
-          id
-          name
-        }
-        episode {
-          id
-          episode
-          air_date
-        }
-        image
-      }
-    }
-  }
-`;
 
 const Home: NextPage = (results) => {
   console.log('🚀 ~ file: index.tsx ~ line 8 ~ results', results);
@@ -106,34 +78,7 @@ export const getStaticProps = async () => {
   const apolloClient = getApolloClient();
 
   const { data } = await apolloClient.query({
-    query: gql`
-      query {
-        characters(page: 1) {
-          info {
-            count
-            pages
-          }
-          results {
-            name
-            id
-            location {
-              id
-              name
-            }
-            origin {
-              id
-              name
-            }
-            episode {
-              id
-              episode
-              air_date
-            }
-            image
-          }
-        }
-      }
-    `,
+    query: GET_CHARACTERS,
   });
 
   return {
