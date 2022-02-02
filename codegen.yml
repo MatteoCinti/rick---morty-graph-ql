@@ -1,5 +1,7 @@
 schema: schema.graphql
 generates:
   types.ts:
-    plugins:
-      - '@graphql-codegen/typescript-react-apollo'
+  plugins:
+    'typescript',
+    'typescript-operations',
+    'typescript-react-apollo',
