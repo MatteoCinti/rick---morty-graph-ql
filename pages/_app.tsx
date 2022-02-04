@@ -5,11 +5,12 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 const client = new ApolloClient({
   uri: 'https://rickandmortyapi.com/graphql/',
   cache: new InMemoryCache(),
-
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <Component {...pageProps} />
+  <ApolloProvider client={client}>
+    <Component {...pageProps} />
+  </ApolloProvider>
 );
 export default MyApp;

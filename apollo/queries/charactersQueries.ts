@@ -1,32 +1,32 @@
 import { gql } from '@apollo/client';
 
-const GET_CHARACTERS = gql`
-  query allCharactersQuery {
-    characters(page: 1) {
-      info {
-        count
-        pages
-      }
-      results {
-        name
+const allCharactersQuery = `query allCharactersQuery {
+  characters(page: 1) {
+    info {
+      count
+      pages
+    }
+    results {
+      name
+      id
+      location {
         id
-        location {
-          id
-          name
-        }
-        origin {
-          id
-          name
-        }
-        episode {
-          id
-          episode
-          air_date
-        }
-        image
+        name
       }
+      origin {
+        id
+        name
+      }
+      episode {
+        id
+        episode
+        air_date
+      }
+      image
     }
   }
-`;
+}`
+
+const GET_CHARACTERS = `${gql} ${allCharactersQuery}`;
 
 export default GET_CHARACTERS;

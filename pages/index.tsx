@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Heading,
   Box,
@@ -11,11 +11,12 @@ import {
   IconButton,
   useToast,
 } from '@chakra-ui/react';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { getApolloClient } from '../apollo';
 import GET_CHARACTERS from '../apollo/queries/charactersQueries';
 import styles from '../styles/Home.module.css';
 import Characters from '../Components/Characters';
+import Character from '../apollo/dataSchemas';
 
 export interface Results {
   characters: Character[];
@@ -24,6 +25,11 @@ export interface Results {
 const Home: NextPage<Results> = (results) => {
   const initialState: Results = results;
   const [characters, setCharacters] = useState(initialState.characters);
+  const { loading, error, data } = useQuery(GET_CHARACTERS)
+
+  useEffect(() => {
+    console.log("🚀 ~ file: index.tsx ~ line 28 ~ data", data)
+  }, [data])
 
   return (
     <Flex directiion="column" justify="center" align="center">
@@ -68,6 +74,7 @@ export const getStaticProps = async () => {
   const { data } = await apolloClient.query({
     query: GET_CHARACTERS,
   });
+
 
   return {
     props: {

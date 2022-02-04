@@ -1,7 +1,11 @@
-schema: schema.graphql
+overwrite: true
+schema: "https://rickandmortyapi.com/graphql/"
+documents: "apollo/queries/**.{ts.tsx}"
 generates:
-  types.ts:
-  plugins:
-    'typescript',
-    'typescript-operations',
-    'typescript-react-apollo',
+  apollo/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: true
