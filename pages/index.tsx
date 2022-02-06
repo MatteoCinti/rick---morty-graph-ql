@@ -12,17 +12,15 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { getApolloClient } from '../apollo';
-import GET_CHARACTERS from '../apollo/queries/charactersQueries';
+import GET_ALL_CHARACTERS from '../apollo/queries/getAllCharacters';
 import styles from '../styles/Home.module.css';
-import { Character } from '../apollo/generated/graphql';
 import Characters from '../Components/Characters';
+import { CharactersResult, queryResult } from '../apollo/interfaces';
 
 
-export interface HomeProps {
-  characters: Character[] | [];
-}
 
-const Home: NextPage<HomeProps> = ({ characters: characterProps }) => {
+
+const Home: NextPage<CharactersResult> = ({ characters: characterProps }) => {
   const [characters, setCharacters] = useState(characterProps);
 
   return (
@@ -62,17 +60,11 @@ const Home: NextPage<HomeProps> = ({ characters: characterProps }) => {
   );
 };
 
-interface queryResult {
-  characters: {
-    results: Character[]
-  }
-}
-
 export const getStaticProps = async () => {
   const apolloClient = getApolloClient();
 
   const { data } = await apolloClient.query<queryResult>({
-    query: GET_CHARACTERS,
+    query: GET_ALL_CHARACTERS,
   });
 
   return {

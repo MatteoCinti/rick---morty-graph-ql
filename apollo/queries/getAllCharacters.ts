@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-const GET_CHARACTERS = gql`
-query allCharacters {
+const GET_ALL_CHARACTERS = gql`
+query getAllCharacters {
   characters(page: 1) {
     info {
       count
@@ -28,4 +28,4 @@ query allCharacters {
   }
 }`;
 
-export default GET_CHARACTERS;
+export default GET_ALL_CHARACTERS;

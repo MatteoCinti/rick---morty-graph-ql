@@ -202,14 +202,21 @@ export type QueryLocationsByIdsArgs = {
   ids: Array<Scalars['ID']>;
 };
 
-export type AllCharactersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllCharactersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllCharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null, pages?: number | null } | null, results?: Array<{ __typename?: 'Character', name?: string | null, id?: string | null, image?: string | null, location?: { __typename?: 'Location', id?: string | null, name?: string | null } | null, origin?: { __typename?: 'Location', id?: string | null, name?: string | null } | null, episode: Array<{ __typename?: 'Episode', id?: string | null, episode?: string | null, air_date?: string | null } | null> } | null> | null } | null };
+export type GetAllCharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null, pages?: number | null } | null, results?: Array<{ __typename?: 'Character', name?: string | null, id?: string | null, image?: string | null, location?: { __typename?: 'Location', id?: string | null, name?: string | null } | null, origin?: { __typename?: 'Location', id?: string | null, name?: string | null } | null, episode: Array<{ __typename?: 'Episode', id?: string | null, episode?: string | null, air_date?: string | null } | null> } | null> | null } | null };
+
+export type GetSingleCharacterQueryVariables = Exact<{
+  characterName: Scalars['String'];
+}>;
 
 
-export const AllCharactersDocument = gql`
-    query allCharacters {
+export type GetSingleCharacterQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null, pages?: number | null } | null, results?: Array<{ __typename?: 'Character', name?: string | null, id?: string | null, image?: string | null, location?: { __typename?: 'Location', id?: string | null, name?: string | null } | null, origin?: { __typename?: 'Location', id?: string | null, name?: string | null } | null, episode: Array<{ __typename?: 'Episode', id?: string | null, episode?: string | null, air_date?: string | null } | null> } | null> | null } | null };
+
+
+export const GetAllCharactersDocument = gql`
+    query getAllCharacters {
   characters(page: 1) {
     info {
       count
@@ -238,28 +245,84 @@ export const AllCharactersDocument = gql`
     `;
 
 /**
- * __useAllCharactersQuery__
+ * __useGetAllCharactersQuery__
  *
- * To run a query within a React component, call `useAllCharactersQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllCharactersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAllCharactersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllCharactersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllCharactersQuery({
+ * const { data, loading, error } = useGetAllCharactersQuery({
  *   variables: {
  *   },
  * });
  */
-export function useAllCharactersQuery(baseOptions?: Apollo.QueryHookOptions<AllCharactersQuery, AllCharactersQueryVariables>) {
+export function useGetAllCharactersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllCharactersQuery, GetAllCharactersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AllCharactersQuery, AllCharactersQueryVariables>(AllCharactersDocument, options);
+        return Apollo.useQuery<GetAllCharactersQuery, GetAllCharactersQueryVariables>(GetAllCharactersDocument, options);
       }
-export function useAllCharactersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllCharactersQuery, AllCharactersQueryVariables>) {
+export function useGetAllCharactersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllCharactersQuery, GetAllCharactersQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AllCharactersQuery, AllCharactersQueryVariables>(AllCharactersDocument, options);
+          return Apollo.useLazyQuery<GetAllCharactersQuery, GetAllCharactersQueryVariables>(GetAllCharactersDocument, options);
         }
-export type AllCharactersQueryHookResult = ReturnType<typeof useAllCharactersQuery>;
-export type AllCharactersLazyQueryHookResult = ReturnType<typeof useAllCharactersLazyQuery>;
-export type AllCharactersQueryResult = Apollo.QueryResult<AllCharactersQuery, AllCharactersQueryVariables>;
+export type GetAllCharactersQueryHookResult = ReturnType<typeof useGetAllCharactersQuery>;
+export type GetAllCharactersLazyQueryHookResult = ReturnType<typeof useGetAllCharactersLazyQuery>;
+export type GetAllCharactersQueryResult = Apollo.QueryResult<GetAllCharactersQuery, GetAllCharactersQueryVariables>;
+export const GetSingleCharacterDocument = gql`
+    query getSingleCharacter($characterName: String!) {
+  characters(filter: {name: $characterName}) {
+    info {
+      count
+      pages
+    }
+    results {
+      name
+      id
+      location {
+        id
+        name
+      }
+      origin {
+        id
+        name
+      }
+      episode {
+        id
+        episode
+        air_date
+      }
+      image
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetSingleCharacterQuery__
+ *
+ * To run a query within a React component, call `useGetSingleCharacterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSingleCharacterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSingleCharacterQuery({
+ *   variables: {
+ *      characterName: // value for 'characterName'
+ *   },
+ * });
+ */
+export function useGetSingleCharacterQuery(baseOptions: Apollo.QueryHookOptions<GetSingleCharacterQuery, GetSingleCharacterQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSingleCharacterQuery, GetSingleCharacterQueryVariables>(GetSingleCharacterDocument, options);
+      }
+export function useGetSingleCharacterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSingleCharacterQuery, GetSingleCharacterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSingleCharacterQuery, GetSingleCharacterQueryVariables>(GetSingleCharacterDocument, options);
+        }
+export type GetSingleCharacterQueryHookResult = ReturnType<typeof useGetSingleCharacterQuery>;
+export type GetSingleCharacterLazyQueryHookResult = ReturnType<typeof useGetSingleCharacterLazyQuery>;
+export type GetSingleCharacterQueryResult = Apollo.QueryResult<GetSingleCharacterQuery, GetSingleCharacterQueryVariables>;
