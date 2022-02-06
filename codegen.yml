@@ -1,6 +1,6 @@
 overwrite: true
 schema: "https://rickandmortyapi.com/graphql/"
-documents: "apollo/queries/**.{ts.tsx}"
+documents: './apollo/**/*.{ts, tsx}'
 generates:
   apollo/generated/graphql.tsx:
     plugins:

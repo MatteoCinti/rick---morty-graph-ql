@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
-const allCharactersQuery = `query allCharactersQuery {
+const GET_CHARACTERS = gql`
+query allCharacters {
   characters(page: 1) {
     info {
       count
@@ -25,8 +26,6 @@ const allCharactersQuery = `query allCharactersQuery {
       image
     }
   }
-}`
-
-const GET_CHARACTERS = `${gql} ${allCharactersQuery}`;
+}`;
 
 export default GET_CHARACTERS;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Heading, Text, SimpleGrid } from '@chakra-ui/react';
-import Character from '../apollo/dataSchemas';
+import Character from '../apollo/schema';
 import { Results } from '../pages';
 
 const Character: React.FC<Results> = ({ characters }) => {
