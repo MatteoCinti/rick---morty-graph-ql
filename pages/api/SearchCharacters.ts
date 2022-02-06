@@ -5,11 +5,16 @@ import GET_SINGLE_CHARACTER from "../../apollo/queries/singleCharacterQuery";
 
 export default async (req: NextApiRequest, res: NextApiResponse<CharactersResult>) => {
   try {
+    const search = req.body;
     const apolloClient = getApolloClient();
 
     const { data } = await apolloClient.query<queryResult>({
       query: GET_SINGLE_CHARACTER,
+      variables: { 
+        characterName: search 
+      }
     });
+    console.log("🚀 ~ file: SearchCharacters.ts ~ line 15 ~ data", data)
 
     res.status(200).json({ characters: data.characters.results, error: null })
   } catch (error) {

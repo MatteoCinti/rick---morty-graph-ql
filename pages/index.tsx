@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
+import { SearchIcon, CloseIcon } from '@chakra-ui/icons'
 import {
   Heading,
   Box,
@@ -18,10 +19,10 @@ import Characters from '../Components/Characters';
 import { CharactersResult, queryResult } from '../apollo/interfaces';
 
 
-
-
 const Home: NextPage<CharactersResult> = ({ characters: characterProps }) => {
   const [characters, setCharacters] = useState(characterProps);
+  const [search, setSearch] = useState("");
+  const toast = useToast();
 
   return (
     <Flex direction="column" justify="center" align="center">
@@ -41,6 +42,56 @@ const Home: NextPage<CharactersResult> = ({ characters: characterProps }) => {
         <Heading as="h1" size="2xl" mb={8}>
           Rick & Morty Graphql Searcher
         </Heading>
+
+        <form
+          onSubmit={async (event) => {
+            event.preventDefault();
+            const results = await fetch("/api/SearchCharacters", {
+              method: "post",
+              body: search,
+            });
+            const { characters, error } = await results.json();
+            if (error) {
+              toast({
+                position: "bottom",
+                title: "An error occurred.",
+                description: error,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+              });
+            } else {
+              setCharacters(characters);
+            }
+          }}
+        >
+          <Stack maxWidth="350px" width="100%" isInline mb={8}>
+            <Input
+              placeholder="Search"
+              value={search}
+              border="none"
+              onChange={(e) => setSearch(e.target.value)}
+            ></Input>
+            <IconButton
+              colorScheme="blue"
+              aria-label="Search database"
+              icon={<SearchIcon />}
+              disabled={search === ""}
+              type="submit"
+            />
+            <IconButton
+              colorScheme="red"
+              aria-label="Reset "
+              icon={<CloseIcon />}
+              disabled={search === ""}
+              onClick={async () => {
+                setSearch("");
+                setCharacters(characterProps);
+              }}
+            />
+          </Stack>
+        </form>
+
         <Characters characters={characters} />
       </Box>
 
